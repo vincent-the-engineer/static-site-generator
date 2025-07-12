@@ -1,6 +1,6 @@
 import unittest
 
-from generator import split_nodes_delimiter
+from inline_markdown import split_nodes_delimiter
 from textnode import TextNode, TextType
 
 
@@ -31,6 +31,17 @@ class TestSplitNodes_Delimiter(unittest.TestCase):
         self.assertEqual(new_nodes, [
             TextNode("This is text ending with ", TextType.TEXT),
             TextNode("italic phrase", TextType.ITALIC),
+            ]
+        )
+
+    def test_multiple_bold(self):
+        node = TextNode("This has **bolded phrase 1** and **bold2**", TextType.TEXT)
+        new_nodes = split_nodes_delimiter([node], "**", TextType.BOLD)
+        self.assertEqual(new_nodes, [
+            TextNode("This has ", TextType.TEXT),
+            TextNode("bolded phrase 1", TextType.BOLD),
+            TextNode(" and ", TextType.TEXT),
+            TextNode("bold2", TextType.BOLD),
             ]
         )
 
